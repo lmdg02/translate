@@ -1,0 +1,57 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Translator",
+  "version": "1.0",
+  "description": "Dịch văn bản với ChatGPT trực tiếp trên bất kỳ trang web nào",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  
+  "host_permissions": [
+    "https://chat.openai.com/*",
+    "https://chatgpt.com/*",
+    "<all_urls>"
+  ],
+  
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
+      "js": ["chatgpt-content-script.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["popup-injector.js"],
+      "css": ["popup-styles.css"],
+      "run_at": "document_end",
+      "exclude_matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"]
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "ChatGPT Translator"
+  },
+  
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png", 
+    "128": "icon128.png"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["popup-styles.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
